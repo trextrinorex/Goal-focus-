@@ -1,0 +1,7 @@
+{
+  "name": "NEXUS",
+  "description": "A personal goal-navigation, accountability and AI coaching operating system designed to keep you committed to your North Star from day one to achievement.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
