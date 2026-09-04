@@ -1,0 +1,15 @@
+const $=s=>document.querySelector(s);
+const state=JSON.parse(localStorage.getItem('guitar-focus')||'{}');
+state.xp??=0;state.sessions??=0;state.minutes??=0;state.streak??=0;state.best??=0;state.score??=0;state.lastDay??='';
+let total=25*60,remaining=total,timerId=null,running=false;
+const quotes=['Your next 25 minutes can change today.','Protect your attention like it matters.','Start before you feel ready.','One clean session beats ten distracted starts.','Make progress your competition.'];
+$('#quote').textContent=quotes[Math.floor(Math.random()*quotes.length)];
+function save(){localStorage.setItem('guitar-focus',JSON.stringify(state));render()}
+function render(){const m=Math.floor(remaining/60).toString().padStart(2,'0'),s=(remaining%60).toString().padStart(2,'0');$('#timer').textContent=`${m}:${s}`;$('#progress').style.width=`${((total-remaining)/total)*100}%`;$('button#start').textContent=running?'Pause Session':'Start Session';$('#xp').textContent=state.xp;$('#level').textContent=Math.floor(state.xp/100)+1;$('#sessions').textContent=state.sessions;$('#minutes').textContent=state.minutes;$('#points').textContent=state.xp;$('#best').textContent=state.best;$('#score').textContent=state.score;$('#streak').textContent=`🔥 ${state.streak} day streak`;$('#goalText').textContent=`${Math.min(state.sessions,3)} / 3 sessions`;$('#goalBar').style.width=`${Math.min(state.sessions/3,1)*100}%`}
+function finish(){running=false;clearInterval(timerId);remaining=total;state.sessions++;state.minutes+=25;state.xp+=50;const d=new Date().toDateString();if(state.lastDay!==d){state.streak++;state.lastDay=d}$('#status').textContent='Session complete. Momentum gained.';save()}
+$('#start').onclick=()=>{if(running){running=false;clearInterval(timerId);$('#status').textContent='Paused. Come back when you are ready.';render();return}running=true;$('#status').textContent='One task. One timer. Stay with it.';timerId=setInterval(()=>{remaining--;if(remaining<=0)finish();render()},1000);render()};
+$('#reset').onclick=()=>{running=false;clearInterval(timerId);remaining=total;$('#status').textContent='Timer reset. Choose your next focused run.';render()};
+const symbols=['●','■','▲','◆','★','✦'];let target='';
+function round(){target=symbols[Math.floor(Math.random()*symbols.length)];$('#target').textContent=target;const others=symbols.filter(x=>x!==target).sort(()=>Math.random()-.5).slice(0,2);const opts=[target,target,...others].sort(()=>Math.random()-.5);$('#choices').innerHTML=opts.map(x=>`<button data-v="${x}" class="ghost">${x}</button>`).join('');document.querySelectorAll('#choices button').forEach(b=>b.onclick=()=>{if(b.dataset.v===target){state.score++;state.xp+=5;state.best=Math.max(state.best,state.score);$('#status').textContent='Nice. Attention locked in.'}else{$('#status').textContent='Reset your gaze and try again.';state.score=Math.max(0,state.score-1)}save();round()})}
+$('#newGame').onclick=()=>{state.score=0;save();round()};
+round();$('#sound').onclick=()=>$('#sound').textContent=$('#sound').textContent==='🔇'?'🔊':'🔇';render();
