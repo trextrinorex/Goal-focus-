@@ -1,13 +1,19 @@
-# Guitar — Focus & Motivation Game
+# Guitar — Focus Arena
 
-A browser-based motivation and concentration game designed to help users enter focused work sessions, build streaks, and train attention with short interactive challenges.
+A polished, mobile-friendly browser game for motivation, concentration, and deep-focus practice.
 
-## Planned experience
-- Focus session timer with start / pause / reset
-- Concentration mini-game
-- Motivation prompts and streaks
-- XP, levels, and daily goals
-- Ambient focus mode
-- Responsive mobile-first UI
+## Included now
+- 25-minute focus timer with pause/reset
+- Attention Sprint visual discrimination game
+- XP and levels
+- Focus-session count and minutes tracked locally
+- Daily 3-session goal progress
+- Streak tracking
+- Persistent progress via `localStorage`
+- Responsive glassmorphism-style interface
 
-This folder contains the initial project brief. The implementation is being developed as a standalone web experience.
+## Run locally
+Open `index.html` in a modern browser. No build step or backend is required for the current version.
+
+## Next expansion ideas
+Add soundscapes, more concentration challenges, achievements, focus analytics, accessibility preferences, and optional cloud sync.
